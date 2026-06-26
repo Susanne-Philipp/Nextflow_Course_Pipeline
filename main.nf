@@ -40,6 +40,7 @@ process fetch_data_files_and_cat {
     output:
         path "merged.fasta"
     script:
+    
     """
     cat $samples $reference > merged.fasta
     """
@@ -82,8 +83,8 @@ process trimal {
 
 workflow {
     def ch_ref = fetch_reference_NCBI(params.accession)
-    def ch_samples = channel.fromPath(params.in).collect()
-    def ch_seq = fetch_data_files_and_cat(ch_ref, ch_samples)
+    def ch_samples = channel.fromPath("${params.in}/*.fasta").collect()
+    def ch_seq = fetch_data_files_and_cat(ch_ref, ch_samples).view()
     def ch_maf = mafft(ch_seq)
     def ch_tri = trimal(ch_maf)
 }
