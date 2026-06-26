@@ -1,1 +1,6 @@
 work/
+.nextflow.logs*
+.nextflow/
+hepatitis/
+.envs/
+out/
